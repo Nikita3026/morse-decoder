@@ -38,7 +38,69 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let result="";
+    let array=[];
+    let tempArray=[];
+    let counter=0;
+    let temp="";
+    let tempstr;
+    for(let i=0;i<expr.length;i++)
+    {
+        if(i%10==0 && i!=0)
+        {
+        counter++;
+        array[counter]="";
+        }
+        if(i%10==0 && i==0)
+        {
+            array[counter]="";
+        }
+        array[counter]+=expr[i];
+    }
+    if(array[array.length-1].length<10)
+    {
+        for(let i=array[array.length-1].length;i<10;i++) array[array.length-1]="0"+array[array.length-1];
+    }
+    counter=0;
+    for(let i=0;i<array.length;i++)
+    {
+        tempArray[i]="";
+        for(let j=0;j<array[i].length;j++)
+        {
+            temp+=array[i][j];
+            if(temp=="00") temp="";
+            if(temp=="10"){
+                temp="";
+                tempArray[i]+=".";
+            }
+            if(temp=="11"){
+                temp="";
+                tempArray[i]+="-";
+            }
+            if(temp=="**********")
+            {
+                temp="";
+                tempArray[i]+=" ";
+            }
+        }
+    }
+    temp="";
+    here:  for(let i=0;i<tempArray.length;i++){
+        temp+=tempArray[i];
+       for(let key in MORSE_TABLE){
+            if(key==temp){
+                result+=MORSE_TABLE[key];
+                temp="";
+                continue here;
+            }
+            if(temp==" "){
+                temp="";
+                result+=" ";
+                continue here;
+            }
+        } 
+    }
+    return result;
 }
 
 module.exports = {
